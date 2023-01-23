@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
-import Layout from "../../components/Layout/Layout";
+import Layout from "../../components/layout/Layout";
 
 function MyPageMain() {
   return (

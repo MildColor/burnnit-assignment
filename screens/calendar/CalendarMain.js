@@ -1,34 +1,24 @@
 import React from "react";
 import { Text, View } from "react-native";
-import styled from "styled-components";
-import Layout from "../../components/Layout/Layout";
+import { ScrollView } from "react-native-gesture-handler";
+import CalendarCarousel from "../../components/calendarCarousel/CalendarCarousel";
+
+import Layout from "../../components/layout/Layout";
 
 function CalendarMain() {
   return (
     <Layout justifyContent={"flex-start"}>
-      <CalenderContainer>
-        <View
-          style={{
-            flex: 1 / 7,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text>1</Text>
-        </View>
-      </CalenderContainer>
+      <View>
+        <ScrollView horizontal>
+          <CalendarCarousel
+            date={new Date()}
+            // swipeLeft={setPrevMonth}
+            // swipeRight={setNextMonth}
+          />
+        </ScrollView>
+      </View>
     </Layout>
   );
 }
 
 export default CalendarMain;
-
-const CalenderContainer = styled.View`
-  flex-direction: row;
-  border: 1px solid black;
-  flex-wrap: wrap;
-`;
-const CalenderDate = styled.View`
-  flex-direction: row;
-  border: 1px solid black;
-`;
