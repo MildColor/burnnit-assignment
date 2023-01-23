@@ -1,11 +1,12 @@
 import React from "react";
 import { Text, View } from "react-native";
+import Layout from "../../components/Layout/Layout";
 
 function HomeMain() {
   return (
-    <View>
+    <Layout>
       <Text>HomeMain</Text>
-    </View>
+    </Layout>
   );
 }
 
