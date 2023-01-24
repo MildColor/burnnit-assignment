@@ -5,7 +5,7 @@ import Layout from "../../components/layout/Layout";
 function LibraryMain() {
   return (
     <Layout>
-      <Text>LibraryMain</Text>
+      <Text>Library</Text>
     </Layout>
   );
 }

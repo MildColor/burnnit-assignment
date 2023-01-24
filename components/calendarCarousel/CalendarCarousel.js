@@ -1,14 +1,6 @@
 import React, { useRef, useState } from "react";
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import styled from "styled-components";
 import renderCalendars from "./renderCalendars";
 function CalendarCarousel({ date = new Date(), onDateChanged }) {
   const scrollRef = useRef(null);
@@ -79,9 +71,9 @@ export default CalendarCarousel;
 
 const styles = StyleSheet.create({
   wrapperContainer: {
-    paddingTop: 40,
+    // paddingTop: 40,
     width: 330,
-    height: 470,
-    paddingBottom: 40,
+    height: 500,
+    // paddingBottom: 40,
   },
 });

@@ -1,17 +1,18 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 //요일 render
-const renderDates = (dateItem, selectedDate, setSelectedDate) => {
+const renderDates = (dateItem, month, selectedDate, setSelectedDate) => {
   const itemYear = dateItem.getFullYear();
   const itemMonth = dateItem.getMonth();
   const itemDay = dateItem.getDate();
   const setItemDay = new Date(itemYear, itemMonth, itemDay);
   const itemId = `${itemYear}-${itemMonth}-${itemDay}`;
 
-  const borderColor = itemId === selectedDate ? "royalblue" : "#ffffff";
-  const borderRadius = itemId === selectedDate ? 23.5 : 0;
-  const borderWidth = itemId === selectedDate ? 2 : 0;
+  const pressedBorderColor = itemId === selectedDate ? "royalblue" : "#ffffff";
+  const pressedBorderRadius = itemId === selectedDate ? 23.5 : 0;
+  const pressedBorderWidth = itemId === selectedDate ? 2 : 0;
+  const besideDateColor = itemMonth === month ? "black" : "gray";
 
   return (
     <TouchableOpacity key={itemId} onPress={() => setSelectedDate(itemId)}>
@@ -20,13 +21,15 @@ const renderDates = (dateItem, selectedDate, setSelectedDate) => {
           style={[
             styles.defaultView,
             {
-              borderRadius: borderRadius,
-              borderColor: borderColor,
-              borderWidth: borderWidth,
+              borderRadius: pressedBorderRadius,
+              borderColor: pressedBorderColor,
+              borderWidth: pressedBorderWidth,
             },
           ]}
         >
-          <Text style={styles.notActiveText}>{`${itemDay}`}</Text>
+          <Text
+            style={[styles.notActiveText, { color: besideDateColor }]}
+          >{`${itemDay}`}</Text>
         </View>
       </View>
     </TouchableOpacity>

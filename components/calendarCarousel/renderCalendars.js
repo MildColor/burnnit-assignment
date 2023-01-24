@@ -15,9 +15,17 @@ const renderCalendars = (prevMonth, currentDate, nextMonth, changeMonth) => {
   const renderCalendar = (displayDate) => {
     const [selectedDate, setSelectedDate] = useState();
 
-    const monthName = displayDate.getMonth() + 1;
-    const year = displayDate.getFullYear();
     const month = displayDate.getMonth();
+    const year = displayDate.getFullYear();
+    const monthName = month + 1;
+
+    // const options1 = {
+    //   weekday: "long",
+    //   year: "numeric",
+    //   month: "long",
+    //   day: "numeric",
+    // };
+    // const monthFormat = new Intl.DateTimeFormat("en-US", options1);
 
     // 선택된 date의 달의 마지막 날짜
     const lastDate = new Date(year, month + 1, 0).getDate();
@@ -38,9 +46,14 @@ const renderCalendars = (prevMonth, currentDate, nextMonth, changeMonth) => {
         })
         .slice(0, 3);
 
+      const textColor =
+        weekDay === "Sun" ? "red" : weekDay === "Sat" ? "royalblue" : "";
+
       weekdays.push(
         <View style={{ width: 47.14 }} key={idx}>
-          <Text style={styles.weekdayText}>{weekDay}</Text>
+          <Text style={[styles.weekdayText, { color: textColor }]}>
+            {weekDay}
+          </Text>
         </View>
       );
     }
@@ -99,7 +112,7 @@ const renderCalendars = (prevMonth, currentDate, nextMonth, changeMonth) => {
             data={calendarDates}
             numColumns={7}
             renderItem={({ item }) =>
-              renderDates(item, selectedDate, setSelectedDate)
+              renderDates(item, month, selectedDate, setSelectedDate)
             }
             keyExtractor={(item, id) => id.toString()}
             scrollEnabled={false}
