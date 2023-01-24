@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import CalendarCarousel from "../../components/calendarCarousel/CalendarCarousel";
-
-import Layout from "../../components/layout/Layout";
+import Layout from "../../components/Layout/Layout";
 
 const date = new Date();
 
