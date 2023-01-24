@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -6,10 +6,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import renderDates from "./renderDates";
 
-const renderCalendars = (prevMonth, currentDate, nextMonth) => {
+//FlatList rederItem
+
+const renderCalendars = (prevMonth, currentDate, nextMonth, changeMonth) => {
+  // 달 하나를 render하는 함수
   const renderCalendar = (displayDate) => {
-    //   const monthName = monthFormatter.format(displayDate);
+    const [selectedDate, setSelectedDate] = useState();
+
     const monthName = displayDate.getMonth() + 1;
     const year = displayDate.getFullYear();
     const month = displayDate.getMonth();
@@ -69,62 +74,21 @@ const renderCalendars = (prevMonth, currentDate, nextMonth) => {
     // 선택된 달에 보여줄 모든 날짜
     const calendarDates = [...prevDates, ...dates, ...nextDates];
 
-    //FlatList rederItem
-    const renderDates = (dateItem) => {
-      const itemYear = dateItem.getFullYear();
-      const itemMonth = dateItem.getMonth();
-      const itemDay = dateItem.getDate();
-      const setItemDay = new Date(itemYear, itemMonth, itemDay);
-
-      const isToday = (dateItem) => {
-        const today = new Date();
-
-        return (
-          dateItem.getDate() === today.getDate() &&
-          dateItem.getMonth() === today.getMonth() &&
-          dateItem.getFullYear() === today.getFullYear()
-        );
-      };
-
-      // const hasEvent = (): boolean => {
-      //   return (
-      //     markedDates.includes(itemDay) &&
-      //     markedMonths.includes(itemMonth) &&
-      //     markedYears.includes(itemYear)
-      //   );
-      // };
-
-      // // eslint-disable-next-line @typescript-eslint/no-shadow
-      // const isSelected = (dateItem: Date): boolean => {
-      //   return (
-      //     dateItem.getDate() === selectedDate?.getDate() &&
-      //     dateItem.getMonth() === selectedDate?.getMonth() &&
-      //     dateItem.getFullYear() === selectedDate?.getFullYear()
-      //   );
-      // };
-
-      return (
-        <TouchableOpacity key={itemDay}>
-          <View style={styles.defaultView}>
-            <Text style={styles.notActiveText}>{`${itemDay}`}</Text>
-          </View>
-        </TouchableOpacity>
-      );
-    };
-
     return (
       <View style={styles.calendarContainer} key={displayDate.toString()}>
         <>
           <View style={styles.headerStyle}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => changeMonth(true)}>
               <Text style={styles.arrowText}> &#8249;</Text>
             </TouchableOpacity>
             <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{monthName}</Text>
+              <Text style={styles.titleText}>{monthName}월 </Text>
               <Text style={styles.yearText}>{year}</Text>
             </View>
             <TouchableOpacity>
-              <Text style={styles.arrowText}>&#8250;</Text>
+              <Text style={styles.arrowText} onPress={() => changeMonth(false)}>
+                &#8250;
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.rowContainer}>
@@ -134,7 +98,9 @@ const renderCalendars = (prevMonth, currentDate, nextMonth) => {
             style={styles.dayContainer}
             data={calendarDates}
             numColumns={7}
-            renderItem={({ item }) => renderDates(item)}
+            renderItem={({ item }) =>
+              renderDates(item, selectedDate, setSelectedDate)
+            }
             keyExtractor={(item, id) => id.toString()}
             scrollEnabled={false}
           />
@@ -143,6 +109,7 @@ const renderCalendars = (prevMonth, currentDate, nextMonth) => {
     );
   };
 
+  // 전월 당월 익월 render
   return (
     <View style={styles.rowContainer}>
       <>
@@ -157,12 +124,6 @@ const renderCalendars = (prevMonth, currentDate, nextMonth) => {
 export default renderCalendars;
 
 const styles = StyleSheet.create({
-  wrapperContainer: {
-    paddingTop: 40,
-    width: 330,
-    height: 470,
-    paddingBottom: 40,
-  },
   calendarContainer: {
     height: 390,
   },
@@ -181,87 +142,26 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 300,
   },
   titleText: {
     fontSize: 20,
     textAlign: "center",
     justifyContent: "center",
-    width: 300,
   },
   yearText: {
-    fontSize: 12,
+    fontSize: 20,
     textAlign: "center",
     justifyContent: "center",
   },
   rowContainer: {
     flexDirection: "row",
   },
+
   weekdayText: {
     textAlign: "center",
-    color: "#4F4F4F",
-    fontSize: 20,
-  },
-  defaultView: {
-    width: 47,
-    height: 47,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  otherDaysText: {
-    color: "lightgray",
-    textAlign: "center",
-  },
-  currentDayView: {
-    width: 47,
-    height: 47,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 50,
-    backgroundColor: "#109CF1",
-  },
-  activeView: {
-    width: 47,
-    height: 47,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    backgroundColor: "#F0F8FD",
-  },
-  currentDayText: {
-    color: "white",
-    textAlign: "center",
-  },
-  notActiveText: {
-    textAlign: "center",
-  },
-  activeText: {
-    color: "#109CF1",
-    textAlign: "center",
-  },
-  mark: {
-    width: 4,
-    height: 4,
-    borderRadius: 50,
-    backgroundColor: "#109CF1",
-  },
-  eventContainer: {
-    width: 320,
-    height: 50,
-    backgroundColor: "#109CF1",
-    borderRadius: 30,
-    paddingTop: 15,
-    flexDirection: "row",
-  },
-  eventText: {
-    color: "white",
-    fontWeight: "600",
-    paddingLeft: 30,
-    fontSize: 14,
-  },
-  eventDate: {
-    fontWeight: "900",
-    paddingLeft: 25,
-    color: "white",
   },
 });
